@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+from numpy import array
+import sys
+
+
+
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("notes", help="notes")
+args = parser.parse_args()
+
+
+
+
+d = {
+'B': '01',
+'A': '10',
+'G': '11',
+'F': '11',
+'E': '10',
+'D': '01',
+'C': '00',
+}
+
+
+print "".join([d[x] for x in args.notes])
