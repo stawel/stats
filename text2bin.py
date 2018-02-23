@@ -12,7 +12,7 @@ parser.add_argument("-u", "--to-upper", help="to upper case", action="store_true
 parser.add_argument("-l", "--to-lower", help="to lower case", action="store_true")
 parser.add_argument("-o", "--only-letters", help="only letters", action="store_true")
 parser.add_argument("-v", "--verbose", help="verbose", action="store_true")
-parser.add_argument("type", help="codding type", choices=['base64', 'base58', 'a7bit', 'a8bit', 'bac1', 'bac2', 'notes','notes2'])
+parser.add_argument("type", help="codding type", choices=['base64', 'base58', 'a7', 'a8', 'bac1', 'bac2', 'notes','notes2', 'hex','oct'])
 args = parser.parse_args()
 #print 'pawel'
 #print args
@@ -38,6 +38,8 @@ ba1 = "ABCDEFGHIKLMNOPQRSTUWXYZ_________________________________________________
 ba2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_______________________________________________________"; 
 nts1= "CDEFGABH_______________________________________________________"; 
 nts2= "ABCDEFGH_______________________________________________________"; 
+hx  = "0123456789ABCDEF_______________________________________________________"; 
+oc  = "01234567_______________________________________________________"; 
 #      12345678901234567890123456
 
 
@@ -63,29 +65,35 @@ def base58(x):
     return ret(myindex(b58,x),x,6)
 
 def bac1(x):
-    return ret(myindex(ba1,x),x,5)
+    return ret(myindex(ba1,x.upper()),x,5)
 
 def bac2(x):
-    return ret(myindex(ba2,x),x,5)
+    return ret(myindex(ba2,x.upper()),x,5)
 
 
-def a7bit(x):
+def a7(x):
     return ret(ord(x), x, 7)
 
-def a8bit(x):
+def a8(x):
     return ret(ord(x), x, 8)
 
 def notes(x):
-    return ret(myindex(nts1,x),x,3)
+    return ret(myindex(nts1,x.upper()),x,3)
 
 def notes2(x):
-    return ret(myindex(nts2,x),x,3)
+    return ret(myindex(nts2,x.upper()),x,3)
+
+def hex(x):
+    return ret(myindex(hx,x.upper()),x,4)
+
+def oct(x):
+    return ret(myindex(oc,x),x,3)
+
 
 
 def convert(line):
     method = globals()[args.type]
     return [method(x) for x in line]
-
 
 for line in sys.stdin:
     line = clean(line.strip())
